@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#08111d" />
+  <title>Greyhat — Authorized Security Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-lockup">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div>
+          <div class="brand-name">greyhat</div>
+          <div class="brand-subtitle">security workspace</div>
+        </div>
+      </div>
+
+      <div class="workspace-selector">
+        <div class="workspace-avatar">NS</div>
+        <div class="workspace-copy">
+          <span class="eyebrow">Workspace</span>
+          <strong>Northstar Labs</strong>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <div class="nav-label">Workspace</div>
+        <button class="nav-item active" type="button"><span class="nav-icon">⌂</span>Overview <span class="nav-ping"></span></button>
+        <button class="nav-item" type="button"><span class="nav-icon">◈</span>Targets <span class="nav-count">04</span></button>
+        <button class="nav-item" type="button"><span class="nav-icon">◌</span>Scan history</button>
+        <button class="nav-item" type="button"><span class="nav-icon">▧</span>Evidence vault</button>
+
+        <div class="nav-label second">Governance</div>
+        <button class="nav-item" type="button"><span class="nav-icon">⌁</span>Rules &amp; scope</button>
+        <button class="nav-item" type="button"><span class="nav-icon">♢</span>Team access</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="safe-card">
+          <div class="safe-card-icon">✓</div>
+          <div>
+            <strong>Safe mode is on</strong>
+            <p>Non-destructive checks only</p>
+          </div>
+          <span class="toggle on"><i></i></span>
+        </div>
+        <div class="user-row">
+          <div class="user-avatar">AK</div>
+          <div class="user-copy"><strong>Arjun Kapoor</strong><span>Security engineer</span></div>
+          <span class="more">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Northstar Labs</span><b>/</b><strong>Control room</strong></div>
+        <div class="topbar-actions">
+          <div class="last-sync"><span class="pulse-dot"></span>Last sync <strong>just now</strong></div>
+          <button class="icon-button" type="button" aria-label="Notifications"><span class="notification-dot"></span>♧</button>
+          <div class="avatar-small">AK</div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <section class="intro-row">
+          <div>
+            <div class="kicker"><span class="kicker-line"></span>AUTHORIZED SECURITY WORKSPACE</div>
+            <h1>Control room <span>/</span> <em>web assurance</em></h1>
+            <p class="intro-copy">Find exposure on the left. Prove the fix in a controlled lab on the right.</p>
+          </div>
+          <div class="intro-meta">
+            <div class="mode-badge"><span class="mode-dot"></span>Controlled validation mode</div>
+            <button class="help-button" type="button">? <span>Guide</span></button>
+          </div>
+        </section>
+
+        <div class="authorization-banner">
+          <div class="banner-shield">◈</div>
+          <div class="banner-copy"><strong>Authorized targets only.</strong><span>Validation runs against the selected scope with safe fixtures and read-only probes. Production targets are blocked by policy.</span></div>
+          <button class="text-button" type="button" id="scopeButton">Review scope <span>↗</span></button>
+        </div>
+
+        <div class="control-grid">
+          <section class="panel scanning-panel" aria-labelledby="scanning-title">
+            <div class="panel-header scanning-header">
+              <div class="panel-index">01</div>
+              <div class="panel-title-block">
+                <div class="section-kicker cyan">SURFACE + RISK SIGNALS</div>
+                <h2 id="scanning-title">Security scanning</h2>
+                <p>Map the attack surface and prioritize what needs a human validation.</p>
+              </div>
+              <button class="panel-menu" type="button" aria-label="Scan options">•••</button>
+            </div>
+
+            <div class="target-form">
+              <div class="field-label"><span>Target URL</span><span class="target-state"><i></i> In scope</span></div>
+              <div class="target-input-wrap">
+                <span class="url-prefix">↗</span>
+                <input id="targetUrl" type="url" value="https://demo.northstar.app" aria-label="Target URL" />
+                <button class="target-dropdown" type="button" id="targetDropdown">Staging <span>⌄</span></button>
+              </div>
+              <div class="target-helper"><span>Scope: <b>demo.northstar.app</b> + 2 approved subdomains</span><button type="button" id="editScope">Edit scope</button></div>
+            </div>
+
+            <div class="scan-action-row">
+              <div class="scan-profile"><span class="profile-icon">◒</span><div><span>Profile</span><strong>Full assurance <i>ⓘ</i></strong></div></div>
+              <div class="scan-actions"><span class="estimate" id="scanEstimate">~ 4 min</span><button class="primary-button" id="scanButton" type="button"><span class="button-icon">▶</span><span id="scanButtonText">Run security scan</span></button></div>
+            </div>
+
+            <div class="scan-progress hidden" id="scanProgress">
+              <div class="progress-head"><span id="progressLabel">Preparing safe scan</span><span id="progressPercent">0%</span></div>
+              <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+              <div class="progress-foot"><span id="progressDetail">Checking scope and target policy…</span><span>Local preview</span></div>
+            </div>
+
+            <div class="section-divider"><span>Latest scan · today, 11:42 UTC</span><span class="scan-state"><i></i><b id="scanStateText">Completed</b></span></div>
+
+            <div class="metric-grid">
+              <div class="metric-card"><span class="metric-label">Surface mapped</span><strong>48</strong><span class="metric-detail positive">+6 since last scan</span><span class="metric-spark spark-cyan"></span></div>
+              <div class="metric-card"><span class="metric-label">High priority</span><strong class="orange-number" id="highMetric">03</strong><span class="metric-detail warning">2 need validation</span><span class="metric-spark spark-orange"></span></div>
+              <div class="metric-card"><span class="metric-label">Checks passed</span><strong>86<span class="metric-unit">%</span></strong><span class="metric-detail positive">+12% from baseline</span><span class="metric-spark spark-green"></span></div>
+              <div class="metric-card"><span class="metric-label">Scan duration</span><strong>03:48</strong><span class="metric-detail neutral">Read-only probes</span><span class="metric-spark spark-muted"></span></div>
+            </div>
+
+            <div class="modules-heading"><div><h3>Scanning modules</h3><p><span id="moduleCount">21</span> modules configured for this profile</p></div><button class="outline-button" type="button" id="toggleAll">Deselect all</button></div>
+            <div class="module-groups" id="moduleGroups">
+              <div class="module-group">
+                <div class="group-label"><span class="group-marker blue"></span>Discovery &amp; fingerprinting <span class="group-count">06</span></div>
+                <div class="module-list">
+                  <button class="module-row selected" type="button" data-module="Port &amp; service discovery"><span class="module-symbol">⌁</span><span class="module-name">Port &amp; service discovery</span><span class="module-meta">12 ports</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="HTTP / HTTPS security scanning"><span class="module-symbol">↗</span><span class="module-name">HTTP / HTTPS security scanning</span><span class="module-meta">24 routes</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="DNS / subdomain discovery"><span class="module-symbol">⌘</span><span class="module-name">DNS / subdomain discovery</span><span class="module-meta">03 found</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Technology / framework detection"><span class="module-symbol">◇</span><span class="module-name">Technology / framework detection</span><span class="module-meta">9 signals</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="SSL / TLS configuration checks"><span class="module-symbol">⌑</span><span class="module-name">SSL / TLS configuration checks</span><span class="module-meta">A grade</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Security headers analysis"><span class="module-symbol">▣</span><span class="module-name">Security headers analysis</span><span class="module-meta risk-text">2 findings</span><span class="module-check">✓</span></button>
+                </div>
+              </div>
+              <div class="module-group">
+                <div class="group-label"><span class="group-marker purple"></span>Application assurance <span class="group-count">09</span></div>
+                <div class="module-list">
+                  <button class="module-row selected" type="button" data-module="CORS configuration checks"><span class="module-symbol">⌘</span><span class="module-name">CORS configuration checks</span><span class="module-meta">7 origins</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Cookie / session security checks"><span class="module-symbol">◉</span><span class="module-name">Cookie / session security checks</span><span class="module-meta">8 cookies</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Authentication / authorization checks"><span class="module-symbol">♙</span><span class="module-name">Authentication / authorization checks</span><span class="module-meta">Guarded</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Input / parameter discovery"><span class="module-symbol">⌘</span><span class="module-name">Input / parameter discovery</span><span class="module-meta">126 params</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="API endpoint discovery"><span class="module-symbol">◫</span><span class="module-name">API endpoint discovery</span><span class="module-meta">31 endpoints</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="OWASP Top 10 checks"><span class="module-symbol">◎</span><span class="module-name">OWASP Top 10 checks</span><span class="module-meta">Baseline</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Injection-risk detection"><span class="module-symbol">⌬</span><span class="module-name">Injection-risk detection</span><span class="module-meta risk-text">1 signal</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="XSS-risk detection"><span class="module-symbol">‹›</span><span class="module-name">XSS-risk detection</span><span class="module-meta">28 inputs</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="CSRF checks"><span class="module-symbol">⤨</span><span class="module-name">CSRF checks</span><span class="module-meta">Protected</span><span class="module-check">✓</span></button>
+                </div>
+              </div>
+              <div class="module-group">
+                <div class="group-label"><span class="group-marker orange"></span>Business logic &amp; hygiene <span class="group-count">06</span></div>
+                <div class="module-list">
+                  <button class="module-row selected" type="button" data-module="IDOR / access-control checks"><span class="module-symbol">⇆</span><span class="module-name">IDOR / access-control checks</span><span class="module-meta risk-text">2 signals</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="File-upload security checks"><span class="module-symbol">↥</span><span class="module-name">File-upload security checks</span><span class="module-meta">4 forms</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="SSRF-risk detection"><span class="module-symbol">◎</span><span class="module-name">SSRF-risk detection</span><span class="module-meta">Safe probe</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Misconfiguration detection"><span class="module-symbol">⚙</span><span class="module-name">Misconfiguration detection</span><span class="module-meta risk-text">4 findings</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Sensitive-information exposure checks"><span class="module-symbol">◍</span><span class="module-name">Sensitive-information exposure checks</span><span class="module-meta">0 secrets</span><span class="module-check">✓</span></button>
+                  <button class="module-row selected" type="button" data-module="Dependency / version vulnerability checks"><span class="module-symbol">♧</span><span class="module-name">Dependency / version vulnerability checks</span><span class="module-meta risk-text">1 outdated</span><span class="module-check">✓</span></button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel lab-panel" aria-labelledby="lab-title">
+            <div class="lab-accent"></div>
+            <div class="panel-header lab-header">
+              <div class="panel-index violet">02</div>
+              <div class="panel-title-block">
+                <div class="section-kicker violet-text">PROVE THE FIX · SAFELY</div>
+                <h2 id="lab-title">Attack / validation lab</h2>
+                <p>Turn a scan signal into reproducible evidence without crossing scope.</p>
+              </div>
+              <div class="lab-lock">⌁</div>
+            </div>
+
+            <div class="lab-scope-card">
+              <div class="lab-scope-top"><span class="scope-label">VALIDATION SCOPE</span><span class="scope-status"><i></i> Preflight passed</span></div>
+              <div class="lab-target"><span class="target-mini-icon">↗</span><strong>demo.northstar.app</strong><span class="environment-tag">STAGING</span></div>
+              <div class="lab-scope-bottom"><span>Fixture set: <b>Northstar / checkout-v2</b></span><button class="change-link" type="button" id="changeFixture">Change</button></div>
+            </div>
+
+            <div class="lab-warning"><span>i</span><p><strong>Safe by default.</strong> Payloads are inert, requests are rate-limited, and no admin bypass or destructive action is attempted.</p></div>
+
+            <div class="validation-heading"><div><h3>Validation playbooks</h3><p>Select a signal to generate evidence</p></div><span class="ready-pill"><i></i>14 ready</span></div>
+            <div class="validation-list" id="validationList">
+              <button class="validation-card active" type="button" data-validation="Authorization / access-control validation" data-risk="HIGH" data-result="Potential object-level authorization gap" data-evidence="A read-only role matrix found a difference between owner and peer responses for one fixture." data-icon="⇆">
+                <span class="validation-icon orange">⇆</span><span class="validation-copy"><strong>Authorization / access-control</strong><small>Compare owner vs peer fixture</small></span><span class="severity high">HIGH</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="Authentication test cases" data-risk="MED" data-result="Session boundary needs review" data-evidence="The test fixture retained a session after the simulated privilege boundary changed." data-icon="♙">
+                <span class="validation-icon blue">♙</span><span class="validation-copy"><strong>Authentication test cases</strong><small>Session + recovery paths</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="XSS validation" data-risk="MED" data-result="Output encoding appears consistent" data-evidence="Inert canary text was rendered as text across the selected 6 output contexts." data-icon="‹›">
+                <span class="validation-icon violet">‹›</span><span class="validation-copy"><strong>XSS validation</strong><small>Inert canary · 6 contexts</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="SQL-injection safe detection / validation" data-risk="HIGH" data-result="No differential response observed" data-evidence="Boolean and timing-safe comparisons were neutral on the approved fixture route." data-icon="⌘">
+                <span class="validation-icon red">⌘</span><span class="validation-copy"><strong>SQL-injection safe detection</strong><small>Boolean differential · read-only</small></span><span class="severity high">HIGH</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="CSRF validation" data-risk="MED" data-result="Anti-CSRF token verified" data-evidence="State-changing fixture rejected a request with a missing or stale token." data-icon="⤨">
+                <span class="validation-icon green">⤨</span><span class="validation-copy"><strong>CSRF validation</strong><small>Token + origin enforcement</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="IDOR validation" data-risk="HIGH" data-result="Peer object read requires review" data-evidence="The non-owner fixture returned metadata where a deny response was expected. No write was attempted." data-icon="◈">
+                <span class="validation-icon orange">◈</span><span class="validation-copy"><strong>IDOR validation</strong><small>Owner / peer object comparison</small></span><span class="severity high">HIGH</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="SSRF non-destructive validation" data-risk="MED" data-result="Outbound request policy held" data-evidence="The canary destination was not contacted; egress policy returned the expected deny fixture." data-icon="◎">
+                <span class="validation-icon cyan">◎</span><span class="validation-copy"><strong>SSRF non-destructive</strong><small>Canary sink · no internal access</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="File-upload validation" data-risk="MED" data-result="Content-type controls passed" data-evidence="Inert test files were quarantined and executable content was not served by the fixture." data-icon="↥">
+                <span class="validation-icon blue">↥</span><span class="validation-copy"><strong>File-upload validation</strong><small>Type, size + storage controls</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="Security-header bypass validation" data-risk="LOW" data-result="Browser policy headers present" data-evidence="A header matrix confirmed framing, MIME sniffing, and referrer controls in the fixture." data-icon="▣">
+                <span class="validation-icon green">▣</span><span class="validation-copy"><strong>Security-header bypass</strong><small>Browser policy matrix</small></span><span class="severity low">LOW</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="CORS validation" data-risk="MED" data-result="Untrusted origin rejected" data-evidence="Credentialed cross-origin fixture request was denied and no response body was exposed." data-icon="⌘">
+                <span class="validation-icon violet">⌘</span><span class="validation-copy"><strong>CORS validation</strong><small>Origin allowlist + credentials</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="Session-management validation" data-risk="MED" data-result="Rotation control needs review" data-evidence="The fixture did not rotate its session identifier after the simulated privilege change." data-icon="◉">
+                <span class="validation-icon orange">◉</span><span class="validation-copy"><strong>Session management</strong><small>Rotation, expiry + cookie flags</small></span><span class="severity medium">MED</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="Rate-limit validation" data-risk="LOW" data-result="Rate limit enforced" data-evidence="The safe request budget returned a throttle response before the fixture threshold was exceeded." data-icon="◌">
+                <span class="validation-icon cyan">◌</span><span class="validation-copy"><strong>Rate-limit validation</strong><small>Bounded request budget</small></span><span class="severity low">LOW</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="API security validation" data-risk="HIGH" data-result="One endpoint needs schema review" data-evidence="The fixture accepted an unexpected optional field; no state was changed during validation." data-icon="◫">
+                <span class="validation-icon red">◫</span><span class="validation-copy"><strong>API security validation</strong><small>Schema + auth consistency</small></span><span class="severity high">HIGH</span><span class="validation-arrow">→</span>
+              </button>
+              <button class="validation-card" type="button" data-validation="Misconfiguration validation" data-risk="LOW" data-result="Debug surface remains disabled" data-evidence="Known debug paths and verbose error fixtures returned the expected generic responses." data-icon="⚙">
+                <span class="validation-icon green">⚙</span><span class="validation-copy"><strong>Misconfiguration validation</strong><small>Debug + default surface</small></span><span class="severity low">LOW</span><span class="validation-arrow">→</span>
+              </button>
+            </div>
+
+            <div class="selected-validation" id="selectedValidation">
+              <div class="selected-top"><span class="selected-eyebrow">SELECTED PLAYBOOK</span><span class="evidence-state"><i></i> Fixture ready</span></div>
+              <div class="selected-title"><span class="selected-big-icon" id="selectedIcon">⇆</span><div><h3 id="selectedName">Authorization / access-control validation</h3><p id="selectedHint">Compare owner vs peer fixture</p></div><span class="selected-risk" id="selectedRisk">HIGH</span></div>
+              <div class="evidence-preview"><span class="evidence-check">✓</span><div><strong id="selectedResult">Potential object-level authorization gap</strong><p id="selectedEvidence">A read-only role matrix found a difference between owner and peer responses for one fixture.</p></div></div>
+              <button class="validation-run-button" id="validationRunButton" type="button"><span>▷</span> Run safe validation</button>
+              <div class="validation-progress hidden" id="validationProgress"><div class="progress-head"><span id="validationProgressLabel">Building fixture matrix</span><span id="validationProgressPercent">0%</span></div><div class="progress-track"><div class="progress-fill lab-fill" id="validationProgressFill"></div></div></div>
+            </div>
+
+            <div class="lab-footer"><span>Evidence is stored locally in this preview</span><button class="text-button" type="button" id="exportButton">Export evidence <span>↗</span></button></div>
+          </section>
+        </div>
+
+        <footer class="page-footer"><span><i class="footer-green"></i> Policy engine active</span><span>Ruleset v2.8.1</span><span>All activity is audit logged</span><span class="footer-right">Greyhat Security Workspace <b>·</b> 2026</span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"><span class="toast-icon">✓</span><span id="toastText">Ready</span></div>
+  <script src="app.js"></script>
+</body>
+</html>
