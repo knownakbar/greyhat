@@ -1,0 +1,12 @@
+# Scan outputs / evidence — never commit real assessment data
+reports/
+*.report.json
+
+# Real scope/authorization files (keep only the .example.json templates in git)
+config/scope.json
+config/*.local.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/

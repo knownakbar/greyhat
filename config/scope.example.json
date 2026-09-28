@@ -1,0 +1,17 @@
+{
+  "_comment": "This is the authorization gate the pipeline enforces. Nothing outside `targets` is ever touched, and nothing runs outside the start_date/end_date window. Fill this in with your own signed-off engagement details before running anything against real infrastructure.",
+  "engagement_id": "internal-2026-q3-webapp",
+  "authorized_by": "CISO / Security Steering Committee (replace with real name + approval ref)",
+  "start_date": "2026-01-01",
+  "end_date": "2026-12-31",
+  "safe_mode": true,
+  "max_targets": 25,
+  "notes": "Demo scope pointed at localhost so the pipeline can be exercised safely without touching any real host. Replace targets with your own authorized internal hostnames/IP ranges.",
+  "targets": [
+    {
+      "host": "127.0.0.1",
+      "description": "Local demo web service (safe, sandboxed)",
+      "allowed_ports": [8090]
+    }
+  ]
+}
