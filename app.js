@@ -207,6 +207,30 @@
     showToast('Evidence JSON exported from the local preview.');
   });
 
+  // Report generation is deliberately impact-and-remediation focused rather than an exploit recipe.
+  function reportMarkdown() {
+    const target = $('#targetUrl').value.trim() || 'demo.northstar.app';
+    const date = new Date().toISOString();
+    return `# Greyhat web assurance report\n\n- **Target:** ${target}\n- **Environment:** STAGING / controlled fixture\n- **Generated:** ${date}\n- **Mode:** Fixture-backed, non-destructive assessment\n\n## Executive summary\n\nThe latest local assessment mapped 48 surface signals across 21 configured checks. Three priority signals need review. This report describes potential impact, safe confirmation, and remediation; it does not contain weaponized payloads, credential abuse, admin bypass instructions, or destructive steps.\n\n## Priority findings\n\n### F-001 — HIGH — Object-level authorization gap\n\n- **Signal:** A peer fixture returned object metadata where an authorization denial was expected.\n- **Potential impact:** A signed-in user could potentially view another user’s record if ownership is not enforced server-side.\n- **Safe confirmation:** Compare owner and peer test accounts against an inert fixture; verify status, body, and audit events. Do not modify or delete data.\n- **Recommended fix:** Enforce server-side object authorization on every read and write, return a consistent denial, and add negative regression tests.\n\n### F-002 — HIGH — API schema boundary signal\n\n- **Signal:** The approved fixture accepted an unexpected optional field during a read-only API validation.\n- **Potential impact:** Unexpected fields may create mass-assignment or business-logic risk when authorization and input validation are not enforced server-side.\n- **Safe confirmation:** Run a schema comparison using inert values and a non-mutating fixture; confirm unknown fields are rejected and logged.\n- **Recommended fix:** Use an allowlisted request schema, bind writable fields explicitly, and test each role against the same API contract.\n\n### F-003 — MEDIUM — Session rotation after privilege change\n\n- **Signal:** The session fixture did not rotate its identifier after a simulated privilege boundary change.\n- **Potential impact:** Session fixation or stale-session exposure can extend access beyond an intended authentication or privilege transition.\n- **Safe confirmation:** Record identifiers before and after the controlled transition, then verify expiry, cookie flags, and revocation.\n- **Recommended fix:** Rotate identifiers at authentication and privilege changes, revoke old sessions, and enforce Secure, HttpOnly, and SameSite flags.\n\n## Defensive assessment path\n\n1. Map approved routes, roles, and data boundaries.\n2. Compare owner and peer fixtures with read-only requests and safe canaries.\n3. Capture repeatable evidence, expected behavior, and business impact.\n4. Apply the fix, add regression coverage, and retest the same fixture.\n\n## Scope and safety note\n\nNo live exploitation, destructive request, credential abuse, or unauthorized privilege escalation was performed. Evidence in this preview is local fixture data only.\n`;
+  }
+
+  $('#generateReportButton')?.addEventListener('click', () => {
+    const target = ($('#targetUrl').value.trim() || 'demo.northstar.app').replace(/^https?:\/\//, '').replace(/[^a-z0-9.-]/gi, '-');
+    const blob = new Blob([reportMarkdown()], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `greyhat-assessment-${target}.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showToast('Assessment report generated and downloaded.');
+  });
+
+  $('#printReportButton')?.addEventListener('click', () => {
+    showToast('Opening print-ready assessment report.');
+    setTimeout(() => window.print(), 250);
+  });
+
   $('#targetUrl')?.addEventListener('change', (event) => {
     const value = event.currentTarget.value.trim();
     if (!value) {
@@ -214,6 +238,8 @@
       showToast('A target is required before scanning.', 'warning');
       return;
     }
+    const hostname = value.replace(/^https?:\/\//, '').split('/')[0];
+    if ($('#reportTarget')) $('#reportTarget').textContent = hostname;
     showToast('Target updated. Run a scan to refresh the local results.');
   });
 
